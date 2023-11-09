@@ -3,6 +3,9 @@
 * Студент: [Alexey Demyanov](https://up.htmlacademy.ru/nodejs-api/5/user/1995679).
 * Наставник: `Ярослав Денисенко`.
 
+generate command:
+npm run ts ./src/main.cli.ts -- --generate 100 ./mocks/test-data.tsv http://localhost:3123/api
+
 ---
 
 _Не удаляйте и не изменяйте папки и файлы:_

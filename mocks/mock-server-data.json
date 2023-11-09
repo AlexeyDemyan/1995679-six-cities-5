@@ -1,0 +1,51 @@
+{
+  "api": {
+    "titles": [
+      "Nice House",
+      "Ok-ish Apartment",
+      "Average Room",
+      "Bad Bungalow",
+      "Horrible Townhouse"
+    ],
+    "descriptions": [
+      "Description one",
+      "Description tow",
+      "Description three",
+      "Description four",
+      "Description five"
+    ],
+    "cities": [
+      "Paris",
+      "Cologne",
+      "Brussels",
+      "Amsterdam",
+      "Hamburg",
+      "Dusseldorf"
+    ],
+    "images": [
+      "image-one.jpg",
+      "image-two.jpg",
+      "image-three.jpg",
+      "image-four.jpg",
+      "image-five.jpg"
+    ],
+    "photos": [
+      "photo-one.jpg",
+      "photo-two.jpg",
+      "photo-three.jpg",
+      "photo-four.jpg",
+      "photo-five.jpg"
+    ],
+    "offerTypes": ["Apartment", "House", "Room", "Hotel"],
+    "facilities": [
+      "Breakfast",
+      "Air conditioning",
+      "Laptop friendly workspace",
+      "Baby seat",
+      "Washer",
+      "Towels",
+      "Fridge"
+    ],
+    "users": ["user-1", "user-2", "user-3", "user-4", "user-5"]
+  }
+}
