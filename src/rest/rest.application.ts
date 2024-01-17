@@ -45,5 +45,14 @@ export class RestApplication {
 
     const error = user.validateSync();
     console.log(error);
+
+    const testUser = UserModel.create({
+      email: 'test@emailru',
+      avatarPath: 'keks.jpg',
+      firstname: '2',
+      lastname: 'Unknown'
+     });
+
+     console.log(testUser);
   }
 }
