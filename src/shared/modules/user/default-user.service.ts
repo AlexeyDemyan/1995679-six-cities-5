@@ -3,7 +3,7 @@ import { DocumentType, types } from "@typegoose/typegoose";
 import { UserEntity } from "./user.entity.js";
 import { CreateUserDTO } from "./dto/create-user.dto.js";
 import { inject, injectable } from "inversify";
-import { Component, User } from "../../types/index.js";
+import { Component } from "../../types/index.js";
 import { Logger } from "../../libs/logger/index.js";
 
 @injectable()
