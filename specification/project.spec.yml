@@ -1,0 +1,99 @@
+openapi: 3.1.0
+info:
+  title: API server for the project
+  description: |-
+    * List of resources and routes for the server
+  licence:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 2.0.0
+tags:
+  - name: offers
+    description: Offers-related functionality
+  - name: categories
+    description: Categories-related functionality
+  - name: comments
+    description: Comments-related functionality
+  - name: users
+    description: Users-related functionality
+
+paths:
+  /users/register:
+    post:
+      tags:
+        - users
+      summary: User registration
+      description: Registering new User
+
+      requestBody:
+        description: Information for creating new User
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUser'
+        required: true
+
+      responses:
+        "201":
+          description: User registered. User object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+
+        "409":
+          description: User with this email already exists.
+
+  /users/login:
+    post:
+      tags:
+        - users
+      summary: User authorization
+      description: Authorizing Users based on login and password
+
+    get:
+      tags:
+        - users
+      summary: Checking User state
+      description: Returns information about authorized User
+
+  /users/{userId}/avatar:
+    post:
+      tags:
+        - users
+      summary: Upload User avatar
+      description: Uploading avatar for User. Accepted formats are `png` or `jpg`
+
+components:
+  schemas:
+    createUser:
+      type: object
+
+      properties:
+        email:
+          type: string
+          example: ad@email.com
+
+        firstname:
+          type: string
+          example: Alexey
+
+        lastname:
+          type: string
+          example: Demando
+
+        password:
+          type: string
+          example: 123456@!
+
+    user:
+      type: object
+
+      properties:
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+
+        email:
+          type: string
+          example: ad@email.com

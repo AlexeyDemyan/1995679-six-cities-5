@@ -1,54 +1,36 @@
-import { Offer, OfferType, OfferCity } from "../types/index.js";
+import { Offer, OfferType } from '../types/index.js';
 
 export function createOffer(offerData: string): Offer {
   const [
     title,
     description,
-    postDate,
-    city,
-    imagePreview,
-    accommodationPhotos,
-    isPremium,
-    isFavorite,
-    rating,
+    createdDate,
+    image,
     type,
-    rooms,
-    guests,
     price,
-    facilities,
-    author,
-    comments,
-    coordinates,
-  ] = offerData.replace("\n", "").split("\t");
+    categories,
+    firstname,
+    lastname,
+    email,
+    avatarPath
+  ] = offerData.replace('\n', '').split('\t');
+
+  const user = {
+    email,
+    firstname,
+    lastname,
+    avatarPath
+  };
 
   return {
     title,
     description,
-    postDate: new Date(postDate),
-    city: OfferCity[
-      city as
-        | "Paris"
-        | "Cologne"
-        | "Brussels"
-        | "Amsterdam"
-        | "Hamburg"
-        | "Dusseldorf"
-    ],
-    imagePreview,
-    accommodationPhotos: accommodationPhotos.split(";").map((photo) => photo),
-    isPremium,
-    isFavorite,
-    rating: Number.parseInt(rating, 10),
-    type: OfferType[type as "Apartment" | "House" | "Room" | "Hotel"],
-    rooms: Number.parseInt(rooms, 10),
-    guests: Number.parseInt(guests, 10),
+    image,
+    user,
+    postDate: new Date(createdDate),
+    type: OfferType[type as 'Buy' | 'Sell'],
     price: Number.parseInt(price, 10),
-    facilities: facilities.split(";").map((facility) => facility),
-    author,
-    comments: Number.parseInt(comments, 10),
-    coordinates: {
-      latitude: coordinates.split(";")[0],
-      longitude: coordinates.split(";")[1],
-    },
+    categories: categories.split(';')
+      .map((name) => ({name})),
   };
 }
