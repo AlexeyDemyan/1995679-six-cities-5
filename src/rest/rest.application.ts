@@ -5,7 +5,8 @@ import { Config, RestSchema } from "../shared/libs/config/index.js";
 import { Component } from "../shared/types/index.js";
 import { DatabaseClient } from "../shared/libs/database-client/index.js";
 import { getMongoURI } from "../shared/helpers/index.js";
-import { UserModel } from "../shared/modules/user/index.js";
+// import { UserModel } from "../shared/modules/user/index.js";
+import { Controller } from "../shared/libs/rest/index.js";
 
 @injectable()
 export class RestApplication {
@@ -15,7 +16,9 @@ export class RestApplication {
     @inject(Component.Logger) private readonly logger: Logger,
     @inject(Component.Config) private readonly config: Config<RestSchema>,
     @inject(Component.DatabaseClient)
-    private readonly databaseClient: DatabaseClient
+    private readonly databaseClient: DatabaseClient,
+    @inject(Component.CategoryController)
+    private readonly categoryController: Controller
   ) {
     this.server = express();
   }
@@ -38,6 +41,14 @@ export class RestApplication {
     this.server.listen(port);
   }
 
+  private async _initControllers() {
+    this.server.use("/categories", this.categoryController.router);
+  }
+
+  private async _initMiddleware() {
+    this.server.use(express.json());
+  }
+
   public async init() {
     this.logger.info("Application initiated");
     this.logger.info(`Get value from env $PORT: ${this.config.get("PORT")}`);
@@ -46,29 +57,37 @@ export class RestApplication {
     await this.initDB();
     this.logger.info("Database initialized!");
 
+    this.logger.info("Initializing app-level middleware...");
+    await this._initMiddleware();
+    this.logger.info("App-level middleware initialized!");
+
+    this.logger.info("Init controllers");
+    await this._initControllers();
+    this.logger.info("Controllers initialized!");
+
     this.logger.info("Attempting to initiliaze server");
     await this._initServer();
     this.logger.info(
       `Server started on http://localhost:${this.config.get("PORT")}`
     );
 
-    const user = new UserModel({
-      email: "test@email.loca",
-      avatarPath: "keks.jpg",
-      firstname: "Keks",
-      lastname: "Unknown",
-    });
+    // const user = new UserModel({
+    //   email: "test@email.loca",
+    //   avatarPath: "keks.jpg",
+    //   firstname: "Keks",
+    //   lastname: "Unknown",
+    // });
 
-    const error = user.validateSync();
-    console.log(error);
+    // const error = user.validateSync();
+    // console.log(error);
 
-    const testUser = UserModel.create({
-      email: "test@emailru",
-      avatarPath: "keks.jpg",
-      firstname: "2",
-      lastname: "Unknown",
-    });
+    // const testUser = UserModel.create({
+    //   email: "test@emailru",
+    //   avatarPath: "keks.jpg",
+    //   firstname: "2",
+    //   lastname: "Unknown",
+    // });
 
-    console.log(testUser);
+    // console.log(testUser);
   }
 }
