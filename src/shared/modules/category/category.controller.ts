@@ -1,6 +1,10 @@
 import { inject, injectable } from "inversify";
 import { Response, Request } from "express";
-import { BaseController, HttpMethod } from "../../libs/rest/index.js";
+import {
+  BaseController,
+  HttpMethod,
+  HttpError,
+} from "../../libs/rest/index.js";
 import { Logger } from "../../libs/logger/index.js";
 import { Component } from "../../types/index.js";
 import { CategoryService } from "./category-service.interface.js";
@@ -45,14 +49,11 @@ export class CategoryController extends BaseController {
     );
 
     if (existCategory) {
-      const existCategoryError = new Error(
-        `Category with name "${body.name}" already exists.`
+      throw new HttpError(
+        StatusCodes.UNPROCESSABLE_ENTITY,
+        `Category with name "${body.name}" already exists`,
+        `CategoryController`
       );
-      this.send(res, StatusCodes.UNPROCESSABLE_ENTITY, {
-        error: existCategoryError.message,
-      });
-
-      return this.logger.error(existCategoryError.message, existCategoryError);
     }
 
     const result = await this.categoryService.create(body);
