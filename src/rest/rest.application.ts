@@ -53,11 +53,15 @@ export class RestApplication {
     this.server.use("/categories", this.categoryController.router);
     this.server.use("/users", this.userController.router);
     this.server.use("/offers", this.offerController.router);
-    this.server.use('/comments', this.commentController.router)
+    this.server.use("/comments", this.commentController.router);
   }
 
   private async _initMiddleware() {
     this.server.use(express.json());
+    this.server.use(
+      "/uploads",
+      express.static(this.config.get("UPLOAD_DIRECTORY"))
+    );
   }
 
   private async _initExceptionFilters() {
