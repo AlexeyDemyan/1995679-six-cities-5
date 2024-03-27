@@ -6,7 +6,8 @@ import {
   HttpError,
   RequestQuery,
   ValidateObjectMiddleware,
-  ValidateDtoMiddleware
+  ValidateDtoMiddleware,
+  PrivateRouteMiddleware
 } from "../../libs/rest/index.js";
 import { Logger } from "../../libs/logger/index.js";
 import { Component } from "../../types/index.js";
@@ -36,7 +37,7 @@ export class CategoryController extends BaseController {
       path: "/:categoryId/offers",
       method: HttpMethod.Get,
       handler: this.getOffersFromCategory,
-      middlewares: [new ValidateObjectMiddleware('offerId')]
+      middlewares: [new PrivateRouteMiddleware(), new ValidateObjectMiddleware('offerId')]
     });
   }
 
