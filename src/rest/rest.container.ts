@@ -10,7 +10,9 @@ import {
 import {
   ExceptionFilter,
   AppExceptionFilter,
+  ValidationExceptionFilter,
 } from "../shared/libs/rest/index.js";
+import { HttpErrorExceptionFilter } from "../shared/libs/rest/exception-filter/http-error.exception-filter.js";
 
 export function createRestApplicationContainer() {
   const restApplicationContainer = new Container();
@@ -34,6 +36,14 @@ export function createRestApplicationContainer() {
   restApplicationContainer
     .bind<ExceptionFilter>(Component.ExceptionFilter)
     .to(AppExceptionFilter)
+    .inSingletonScope();
+  restApplicationContainer
+    .bind<ExceptionFilter>(Component.HttpExceptionFilter)
+    .to(HttpErrorExceptionFilter)
+    .inSingletonScope();
+  restApplicationContainer
+    .bind<ExceptionFilter>(Component.ValidationExceptionFilter)
+    .to(ValidationExceptionFilter)
     .inSingletonScope();
 
   return restApplicationContainer;
