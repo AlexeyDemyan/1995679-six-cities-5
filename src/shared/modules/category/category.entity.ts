@@ -20,6 +20,9 @@ export class CategoryEntity
 {
   @prop({ required: true, trim: true })
   public name!: string;
+
+  @prop({ required: true, trim: true })
+  public image: string;
 }
 
 export const CategoryModel = getModelForClass(CategoryEntity);

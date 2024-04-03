@@ -7,7 +7,7 @@ import {
   RequestQuery,
   ValidateObjectMiddleware,
   ValidateDtoMiddleware,
-  PrivateRouteMiddleware
+  PrivateRouteMiddleware,
 } from "../../libs/rest/index.js";
 import { Logger } from "../../libs/logger/index.js";
 import { Component } from "../../types/index.js";
@@ -32,13 +32,22 @@ export class CategoryController extends BaseController {
     this.logger.info("Registering routes for Category Controller...");
 
     this.addRoute({ path: "/", method: HttpMethod.Get, handler: this.index });
-    this.addRoute({ path: "/", method: HttpMethod.Post, handler: this.create, middlewares: [new ValidateDtoMiddleware(CreateCategoryDto)] });
+    this.addRoute({
+      path: "/",
+      method: HttpMethod.Post,
+      handler: this.create,
+      middlewares: [new ValidateDtoMiddleware(CreateCategoryDto)],
+    });
     this.addRoute({
       path: "/:categoryId/offers",
       method: HttpMethod.Get,
       handler: this.getOffersFromCategory,
-      middlewares: [new PrivateRouteMiddleware(), new ValidateObjectMiddleware('offerId')]
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectMiddleware("offerId"),
+      ],
     });
+    this.addRoute({ path: "/", method: HttpMethod.Get, handler: this.index });
   }
 
   public async index(_req: Request, res: Response): Promise<void> {

@@ -4,13 +4,14 @@ import { Logger } from "../shared/libs/logger/index.js";
 import { Config, RestSchema } from "../shared/libs/config/index.js";
 import { Component } from "../shared/types/index.js";
 import { DatabaseClient } from "../shared/libs/database-client/index.js";
-import { getMongoURI } from "../shared/helpers/index.js";
+import { getMongoURI, getFullServerPath } from "../shared/helpers/index.js";
 // import { UserModel } from "../shared/modules/user/index.js";
 import {
   Controller,
   ExceptionFilter,
   ParseTokenMiddleware,
 } from "../shared/libs/rest/index.js";
+import { STATIC_FILES_ROUTE, STATIC_UPLOAD_ROUTE } from "./rest.constant.js";
 
 @injectable()
 export class RestApplication {
@@ -73,9 +74,10 @@ export class RestApplication {
 
     this.server.use(express.json());
     this.server.use(
-      "/uploads",
+      STATIC_UPLOAD_ROUTE,
       express.static(this.config.get("UPLOAD_DIRECTORY"))
     );
+    this.server.use(STATIC_FILES_ROUTE, express.static(this.config.get("STATIC_DIRECTORY_PATH")))
     this.server.use(
       authenticateMiddleware.execute.bind(authenticateMiddleware)
     );
@@ -119,7 +121,10 @@ export class RestApplication {
     this.logger.info("Attempting to initiliaze server");
     await this._initServer();
     this.logger.info(
-      `Server started on http://localhost:${this.config.get("PORT")}`
+      `Server started on ${getFullServerPath(
+        this.config.get("HOST"),
+        this.config.get("PORT")
+      )}`
     );
 
     // const user = new UserModel({
